@@ -88,7 +88,7 @@ class AuthController extends Controller
     private function userPayload(User $user): array
     {
         return [
-            'id' => $user->id,
+            'id' => $user->getKey(),
             'name' => $user->name,
             'email' => $user->email,
             'role' => strtolower(trim($user->role ?? 'student')),
