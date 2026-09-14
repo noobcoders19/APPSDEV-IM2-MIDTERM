@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+.student-shell {
+	background: #f4f7fb;
+	color: #17233c;
+}
+
+.student-brand-logo {
+	width: 44px;
+	height: 44px;
+	object-fit: contain;
+}
+
+.student-brand-title {
+	color: #17233c;
+	font-size: 1.15rem;
+	font-weight: 700;
+}
+
+.student-page-title {
+	color: #1268ed;
+	font-size: clamp(1.7rem, 4vw, 2.35rem);
+	font-weight: 800;
+}
+
+.student-card {
+	background: #fff;
+	border: 1px solid #e3eaf3;
+	border-radius: 14px;
+	box-shadow: 0 8px 24px rgba(25, 55, 95, 0.07);
+	padding: 1.5rem;
+}
+
+.student-status-avatar {
+	width: 112px;
+	height: 112px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border: 5px solid #e7f0ff;
+	border-radius: 50%;
+	background: #176cf0;
+	color: #fff;
+	font-size: 2.25rem;
+	font-weight: 800;
+}
+
+.student-status-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.student-details dt { color: #6c7890; font-weight: 600; }
+.student-details dd { color: #17233c; font-weight: 600; }
+.student-message { padding: 1rem; border: 1px solid #b9e4f2; border-radius: 10px; background: #e9f9fd; color: #15566b; }
+.status-dot { width: 12px; height: 12px; border-radius: 50%; background: #20a568; box-shadow: 0 0 0 6px #e4f7ed; }
+
+@media (max-width: 575px) {
+	.student-brand-title { font-size: .95rem; }
+	.student-brand-logo { width: 38px; height: 38px; }
+	.student-card { padding: 1.15rem; }
+}

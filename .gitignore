@@ -1,0 +1,32 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+**/node_modules/
+backend/vendor/
+
+# Build output
+frontend/dist/
+backend/public/build/
+
+# Laravel runtime files
+backend/storage/app/public/
+backend/storage/framework/
+backend/storage/logs/
+backend/bootstrap/cache/*.php
+backend/public/storage
+
+# Uploaded student documents and legacy uploads
+backend/uploads/
+
+# Local tools and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# Test and coverage output
+**/coverage/
+.phpunit.result.cache
