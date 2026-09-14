@@ -40,7 +40,7 @@ class AuthController extends Controller
 
         $user = User::where('email', strtolower(trim($validated['email'])))->first();
 
-        if (!$user || (!$this->passwordMatches($validated['password'], $user->password))) {
+        if (! $user || (! $this->passwordMatches($validated['password'], $user->password))) {
             return response()->json(['message' => 'Invalid email or password.'], 401);
         }
 
@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         $user = User::where('email', strtolower(trim($validated['email'])))->first();
 
-        if (!$user || !$this->passwordMatches($validated['currentPassword'], $user->password)) {
+        if (! $user || ! $this->passwordMatches($validated['currentPassword'], $user->password)) {
             return response()->json(['message' => 'The current password is incorrect.'], 401);
         }
 

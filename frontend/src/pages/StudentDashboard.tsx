@@ -178,6 +178,8 @@ export default function StudentDashboard({ user, onLogout, initialStep = 1 }: St
                       value={typedFormData.age || ''}
                       onChange={handleInputChange}
                       placeholder="Enter age"
+                      min={1}
+                      max={120}
                       required
                     />
                   </div>

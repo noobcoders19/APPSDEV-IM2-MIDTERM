@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\StudentApplication; // Or your corresponding model
+use App\Models\StudentApplication;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class StudentApplicationController extends Controller
 {
@@ -23,7 +22,7 @@ class StudentApplicationController extends Controller
             'user_id' => 'required',
             'full_name' => 'required|string',
             'phone' => 'required|string',
-            'age' => 'required|integer',
+            'age' => 'required|integer|min:1|max:120',
             'address' => 'required|string',
         ]);
 
@@ -46,7 +45,7 @@ class StudentApplicationController extends Controller
 
         return response()->json([
             'message' => 'Profile saved successfully',
-            'data' => $application
+            'data' => $application,
         ]);
     }
 
@@ -74,7 +73,7 @@ class StudentApplicationController extends Controller
 
         return response()->json([
             'message' => 'Application requirements submitted successfully',
-            'data' => $application
+            'data' => $application,
         ]);
     }
 
