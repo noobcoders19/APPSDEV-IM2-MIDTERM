@@ -9,11 +9,8 @@ export default function AdminDashboard() {
     applications,
     selectedApp,
     loading,
-    scheduleData,
-    setScheduleData,
     handleSelectApp,
     updateStatus,
-    handleNotifySchedule,
     message,
     setMessage,
     sendMessage,
@@ -69,10 +66,7 @@ export default function AdminDashboard() {
             {selectedApp && (
               <ApplicantDetails
                 selectedApp={selectedApp}
-                scheduleData={scheduleData}
-                setScheduleData={setScheduleData}
                 updateStatus={updateStatus}
-                handleNotifySchedule={handleNotifySchedule}
                 message={message}
                 setMessage={setMessage}
                 sendMessage={sendMessage}

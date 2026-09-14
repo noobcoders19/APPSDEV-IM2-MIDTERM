@@ -45,11 +45,6 @@ export function useAdminApplications() {
   const selectedAppRef = useRef<Application | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [scheduleData, setScheduleData] = useState({
-    title: 'On-Site Requirement Verification',
-    appointment_date: '',
-    venue: 'CPC Registrar Office - Room 102',
-  });
   const [message, setMessage] = useState('');
 
   const fetchApplications = useCallback(async () => {
@@ -61,11 +56,6 @@ export function useAdminApplications() {
         if (data.length > 0 && !selectedAppRef.current) {
           setSelectedApp(data[0]);
           selectedAppRef.current = data[0];
-          setScheduleData({
-            title: data[0].appointment_title || 'On-Site Requirement Verification',
-            appointment_date: toDateTimeLocal(data[0].appointment_date),
-            venue: data[0].appointment_venue || 'CPC Registrar Office - Room 102',
-          });
         }
       }
     } catch (err) {
@@ -85,11 +75,6 @@ export function useAdminApplications() {
   const handleSelectApp = (app: Application) => {
     setSelectedApp(app);
     selectedAppRef.current = app;
-    setScheduleData({
-      title: app.appointment_title || 'On-Site Requirement Verification',
-      appointment_date: toDateTimeLocal(app.appointment_date),
-      venue: app.appointment_venue || 'CPC Registrar Office - Room 102',
-    });
   };
 
   const updateStatus = async (newStatus: string) => {
@@ -116,50 +101,34 @@ export function useAdminApplications() {
     }
   };
 
-  const handleNotifySchedule = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedApp) return;
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/admin/applications/${selectedApp.id}/schedule`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(scheduleData),
-      });
-
-      if (res.ok) {
-        alert('Schedule sent and student notified successfully!');
-        fetchApplications();
-        const updatedApp = { ...selectedApp, status: 'Approved', ...scheduleData };
-        setSelectedApp(updatedApp);
-        selectedAppRef.current = updatedApp;
-      } else {
-        alert('Failed to save schedule');
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedApp || !message.trim()) return;
+    const trimmedMessage = message.trim();
+    if (!selectedApp || !trimmedMessage) {
+      alert('Please write a message before sending.');
+      return;
+    }
 
-    const res = await fetch(`${API_BASE_URL}/admin/applications/${selectedApp.id}/message`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
-    });
+    try {
+      const res = await fetch(`${API_BASE_URL}/admin/applications/${selectedApp.id}/message`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: trimmedMessage }),
+      });
 
-    if (res.ok) {
-      const updatedApp = { ...selectedApp, admin_message: message.trim() };
+      if (!res.ok) {
+        throw new Error('Failed to send message.');
+      }
+
+      const updatedApp = { ...selectedApp, admin_message: trimmedMessage };
       setSelectedApp(updatedApp);
       selectedAppRef.current = updatedApp;
       setApplications((current) => current.map((app) => app.id === updatedApp.id ? updatedApp : app));
       setMessage('');
       alert('Message sent to the student.');
-    } else {
-      alert('Failed to send message.');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to send message. Please try again.');
     }
   };
 
@@ -181,13 +150,6 @@ export function useAdminApplications() {
       const nextApp = remaining[0] || null;
       setSelectedApp(nextApp);
       selectedAppRef.current = nextApp;
-      if (nextApp) {
-        setScheduleData({
-          title: nextApp.appointment_title || 'On-Site Requirement Verification',
-          appointment_date: toDateTimeLocal(nextApp.appointment_date),
-          venue: nextApp.appointment_venue || 'CPC Registrar Office - Room 102',
-        });
-      }
     }
   };
 
@@ -195,11 +157,8 @@ export function useAdminApplications() {
     applications,
     selectedApp,
     loading,
-    scheduleData,
-    setScheduleData,
     handleSelectApp,
     updateStatus,
-    handleNotifySchedule,
     message,
     setMessage,
     sendMessage,
